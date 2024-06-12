@@ -1,5 +1,6 @@
 package com.medical.management.system.medical.management.config;
 
+import com.medical.management.system.medical.management.filter.JwtAuthFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,8 +24,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableMethodSecurity
 class SecurityConfig {
 
-//    @Autowired
-//    private JwtAuthFilter authFilter;
+    @Autowired
+    private JwtAuthFilter authFilter;
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -37,8 +38,9 @@ class SecurityConfig {
                 .httpBasic()
                 .and()
                 .authorizeHttpRequests()
-                .requestMatchers("/pharmacy/authenticate", "/pharmacy/add/DetailsOfUser").permitAll()
-                .requestMatchers(HttpMethod.POST, "/pharmacy/authenticate/**").hasRole("ADMIN")
+                .requestMatchers( "/pharmacy/add/DetailsOfUser").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/pharmacy/authenticate").permitAll()
+
                 .requestMatchers(HttpMethod.GET, "/pharmacy/display/AllAdmins").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/pharmacy/display/AllEmployees").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/pharmacy/display/AllMedicines").hasAnyRole("ADMIN", "EMPLOYEE")
@@ -61,10 +63,10 @@ class SecurityConfig {
 
 
                 .and()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .authenticationProvider(authenticationProvider())
-//                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(authFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin()
                 .and()
                 .build();

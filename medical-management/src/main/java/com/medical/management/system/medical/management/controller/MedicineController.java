@@ -1,11 +1,15 @@
 package com.medical.management.system.medical.management.controller;
 
 import com.medical.management.system.medical.management.entity.*;
+import com.medical.management.system.medical.management.service.JwtService;
 import com.medical.management.system.medical.management.service.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +21,8 @@ public class MedicineController
 {
     @Autowired
     private MedicineService service;
-   // @Autowired
-    //private JwtService jwtService;
+    @Autowired
+    private JwtService jwtService;
     @Autowired
     private PasswordEncoder passwordEncoder;
     @Autowired
@@ -252,16 +256,16 @@ public class MedicineController
         service.deleteSalesDetails(id);
         return "Successfully deleted";
     }
-//    @PostMapping("/authenticate")
-//    public JwtResponseDto authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
-//        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-//        if (authentication.isAuthenticated()) {
-//            return JwtResponseDto.builder()
-//                    .accessToken(jwtService.generateToken(authRequest.getUsername()))
-//                    .build();
-//        } else {
-//            throw new UsernameNotFoundException("Invalid user request..!!");
-//        }
-//    }
+    @PostMapping("/authenticate")
+    public JwtResponseDto authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+        if (authentication.isAuthenticated()) {
+            return JwtResponseDto.builder()
+                    .accessToken(jwtService.generateToken(authRequest.getUsername()))
+                    .build();
+        } else {
+            throw new UsernameNotFoundException("Invalid user request..!!");
+        }
+    }
 
 }
