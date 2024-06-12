@@ -22,4 +22,5 @@ public class SalesEntity {
     private int remainingQuantity;
     private String soldDate;
     private double sellingPrice;
+    private double totalAmount;
 }

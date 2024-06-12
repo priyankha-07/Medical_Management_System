@@ -7,7 +7,6 @@ import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
@@ -17,21 +16,23 @@ import java.util.function.Function;
 
 @Component
 public class JwtService {
-    public static final String SECRET="6133a9d7c518c376bdaddb7d6dd1bc4a41e9e6ba6e238729928368e052e91316";
+    public static final String SECRET="d02d665b24c8dcf086362a77f323a6d9dc5e5a09d9fe36af5c258f92ff9e668d";
     public String generateToken(String username){
         Map<String , Object > claims = new HashMap<>();
         return createToken(claims, username);
     }
 
     private String createToken(Map<String, Object> claims, String username) {
+        long expirationTimeInMillis = 1000L * 60 * 60 * 24 * 30; // 30 days
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis()+1000*60*30))
-                .signWith(getSignKey() , SignatureAlgorithm.HS256).compact();
-
+                .setExpiration(new Date(System.currentTimeMillis() + expirationTimeInMillis))
+                .signWith(getSignKey(), SignatureAlgorithm.HS256)
+                .compact();
     }
+
 
     private Key getSignKey() {
         byte[] keyBytes = Decoders.BASE64.decode(SECRET);

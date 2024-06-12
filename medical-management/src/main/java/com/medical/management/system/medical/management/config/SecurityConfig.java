@@ -56,6 +56,8 @@ class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/pharmacy/display/AdminByName/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/pharmacy/display/EmployeeByName/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/pharmacy/display/MedicineByName/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/pharmacy/invoice/**").permitAll()
+
 
                 .requestMatchers(HttpMethod.POST, "/pharmacy/add/**").hasRole("ADMIN")
                 .requestMatchers( HttpMethod.PUT,"/pharmacy/update/**").hasRole("ADMIN")

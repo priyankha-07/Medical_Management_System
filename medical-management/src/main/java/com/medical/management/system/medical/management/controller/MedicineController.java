@@ -1,9 +1,13 @@
 package com.medical.management.system.medical.management.controller;
 
 import com.medical.management.system.medical.management.entity.*;
+import com.medical.management.system.medical.management.service.InvoiceRestockService;
+import com.medical.management.system.medical.management.service.InvoiceSalesService;
 import com.medical.management.system.medical.management.service.JwtService;
 import com.medical.management.system.medical.management.service.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -29,6 +33,10 @@ public class MedicineController
     private UserDetailsService userDetailsService;
     @Autowired
     private AuthenticationManager authenticationManager;
+    @Autowired
+    private InvoiceSalesService invoiceService;
+    @Autowired
+    private InvoiceRestockService invoiceRestockService;
 
 @PostMapping("/add/detailsOfUser")
 @PreAuthorize("has Authority('ROLE_ADMIN')")
@@ -266,6 +274,28 @@ public class MedicineController
         } else {
             throw new UsernameNotFoundException("Invalid user request..!!");
         }
+    }
+
+@GetMapping("/invoice/sales/{salesId}")
+public ResponseEntity<String> generateSalesInvoice(@PathVariable int salesId) {
+    String invoice;
+    try {
+        invoice = invoiceService.generateSalesInvoice(salesId);
+    } catch (RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Sales request not found for salesId: " + salesId);
+    }
+    return ResponseEntity.ok(invoice);
+}
+
+    @GetMapping("/invoice/restock/{restockId}")
+    public ResponseEntity<String> generateRestockInvoice(@PathVariable int restockId) {
+        String invoice;
+        try {
+            invoice = invoiceRestockService.generateRestockInvoice(restockId);
+        } catch (RuntimeException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Stock request not found for restockId: " + restockId);
+        }
+        return ResponseEntity.ok(invoice);
     }
 
 }
