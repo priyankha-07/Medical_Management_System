@@ -42,13 +42,17 @@ import java.util.Map;
 public interface SalesRepository extends JpaRepository<SalesEntity, Integer> {
 
     // Query for total revenue and profit for a date range (MTD and EOM)
+    // Query for total revenue and profit for a specific date (Daily)
     @Query("SELECT SUM(s.totalAmount) AS totalRevenue, " +
             "SUM((s.sellingPrice - r.buyingPrice) * s.quantitySold) AS totalProfit " +
             "FROM SalesEntity s " +
-            "JOIN RestockEntity r ON s.medicineId = r.medicineId " )
-    Map<String, Double> getTotalRevenueAndProfitForDateRange(@Param("startDate") String startDate, @Param("endDate") String endDate);
+            "JOIN RestockEntity r ON s.medicineId = r.medicineId " +
+            "WHERE s.soldDate BETWEEN :startDate AND :endDate")
+    Map<String, Double> getTotalRevenueAndProfitForDateRange(
+            @Param("startDate") String startDate,
+            @Param("endDate") String endDate);
 
-    // Query for total revenue and profit for a specific date (Daily)
+
 
 @Query("SELECT SUM(s.totalAmount) AS totalRevenue FROM SalesEntity s  JOIN RestockEntity r ON s.medicineId = r.medicineId WHERE s.soldDate = :date")
 double getTotalRevenueAndProfitForDate(@Param("date") String date);
