@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MedicineService {
@@ -210,20 +211,22 @@ public class MedicineService {
         medicineRepository.deleteById(id);
         return "Successfully deleted " + id;
     }
-
-    public String deleteRestockDetails(int id) {
-        restockRepository.deleteById(id);
-        return "Successfully deleted " + id;
-    }
-
-    public String deleteSalesDetails(int id) {
-        salesRepository.deleteById(id);
-        return "Successfully deleted " + id;
-    }
-
-    private void validateMedicineExists(int medicineId) {
-        if (!medicineRepository.existsById(medicineId)) {
-            throw new RuntimeException("Medicine with ID " + medicineId + " does not exist");
+        public String deleteRestockDetails ( int id){
+            restockRepository.deleteById(id);
+            return "Successfully deleted " + id;
         }
-    }
+
+        public String deleteSalesDetails ( int id){
+            salesRepository.deleteById(id);
+            return "Successfully deleted " + id;
+        }
+
+
+        private void validateMedicineExists ( int medicineId){
+            if (!medicineRepository.existsById(medicineId)) {
+                throw new RuntimeException("Medicine with ID " + medicineId + " does not exist");
+            }
+        }
+
+
 }

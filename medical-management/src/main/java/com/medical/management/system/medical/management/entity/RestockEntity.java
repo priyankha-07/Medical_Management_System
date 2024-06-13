@@ -16,11 +16,21 @@ import lombok.NoArgsConstructor;
 public class RestockEntity {
   @Id
   @GeneratedValue
-  private  int id;
-  private  int medicineId;
-  private  int quantityRequest;
-  private  String status;
-  private  String requestedDate;
-  private  double buyingPrice;
+  private int id;
+  private int medicineId;
+  private int quantityRequest;
+  private String status;
+  private String requestedDate;
+  private double buyingPrice;
+  private double totalAmount;
+
+  public double getTotalAmount() {
+    return totalAmount;
+  }
+
+  public void setTotalAmount(double totalAmount) {
+    this.totalAmount = totalAmount;
+  }
+
 
 }
