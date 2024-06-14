@@ -222,6 +222,7 @@ public class MedicineService {
         }
 
 
+
         private void validateMedicineExists ( int medicineId){
             if (!medicineRepository.existsById(medicineId)) {
                 throw new RuntimeException("Medicine with ID " + medicineId + " does not exist");
