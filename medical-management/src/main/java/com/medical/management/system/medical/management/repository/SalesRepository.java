@@ -30,16 +30,12 @@
 //}
 package com.medical.management.system.medical.management.repository;
 
-import com.medical.management.system.medical.management.entity.RevenueProfitDTO;
 import com.medical.management.system.medical.management.entity.SalesEntity;
-import jakarta.persistence.Temporal;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -59,6 +55,15 @@ public interface SalesRepository extends JpaRepository<SalesEntity, Integer> {
     @Query("SELECT SUM(s.totalAmount) AS totalRevenue FROM SalesEntity s  JOIN RestockEntity r ON s.medicineId = r.medicineId WHERE s.soldDate = :date")
     double getTotalRevenueAndProfitForDate(@Param("date") String date);
 
+    @Query("SELECT SUM(s.totalAmount) AS totalRevenue, " +
+            "SUM((s.sellingPrice - r.buyingPrice) * s.quantitySold) AS totalProfit " +
+            "FROM SalesEntity s " +
+            "JOIN RestockEntity r ON s.medicineId = r.medicineId " )
+    Map<String, Double> getTotalRevenueAndProfitForEOM(
+            @Param("startDate") String startDate,
+            @Param("endDate") String endDate);
+}
+
 
 //    @Query("SELECT SUM(s.totalAmount) AS totalRevenue, " +
 //            "SUM((s.sellingPrice - r.buyingPrice) * s.quantitySold) AS totalProfit " +
@@ -69,15 +74,15 @@ public interface SalesRepository extends JpaRepository<SalesEntity, Integer> {
 //    Map<String, Double> findByMonthAndYear(@Param("month") String month, @Param("year") String year);
 //}
 
-    @Query("SELECT SUM(s.totalAmount) AS totalRevenue, " +
-            "SUM((s.sellingPrice - r.buyingPrice) * s.quantitySold) AS totalProfit " +
-            "FROM SalesEntity s " +
-            "JOIN RestockEntity r ON s.medicineId = r.medicineId " +
-            "WHERE (:year IS NULL OR EXTRACT(YEAR FROM s.soldDate) = CAST(:year AS int)) " +
-            "AND (:month IS NULL OR EXTRACT(MONTH FROM s.soldDate) = CAST(:month AS int))")
-    RevenueProfitDTO findByMonthAndYear(@Param("month") String month,
-                                        @Param("year") String year);
-}
+//    @Query("SELECT SUM(s.totalAmount) AS totalRevenue, " +
+//            "SUM((s.sellingPrice - r.buyingPrice) * s.quantitySold) AS totalProfit " +
+//            "FROM SalesEntity s " +
+//            "JOIN RestockEntity r ON s.medicineId = r.medicineId " +
+//            "WHERE (:year IS NULL OR EXTRACT(YEAR FROM s.soldDate) = CAST(:year AS int)) " +
+//            "AND (:month IS NULL OR EXTRACT(MONTH FROM s.soldDate) = CAST(:month AS int))")
+//    RevenueProfitDTO findByMonthAndYear(@Param("month") String month,
+//                                        @Param("year") String year);
+//}
 
 //
 //

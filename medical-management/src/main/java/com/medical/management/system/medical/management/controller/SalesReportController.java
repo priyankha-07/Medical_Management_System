@@ -1,21 +1,11 @@
 package com.medical.management.system.medical.management.controller;
 
 import com.medical.management.system.medical.management.entity.Dates;
-import com.medical.management.system.medical.management.entity.RevenueProfitDTO;
-import com.medical.management.system.medical.management.entity.SalesEntity;
 import com.medical.management.system.medical.management.service.MedicineService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.OutputStreamWriter;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 ////package com.medical.management.system.medical.management.controller;
@@ -305,17 +295,8 @@ public class SalesReportController {
         writer.close();
     }
 
-    @PostMapping("/eom-report")
 
-    public RevenueProfitDTO getMonthlyReport(@RequestBody Dates dateRequest, HttpServletResponse response) throws IOException {
-        String year = dateRequest.getYear();
-        String month = dateRequest.getMonth();
 
-        RevenueProfitDTO result = (RevenueProfitDTO) salesRepository.findByMonthAndYear("6", "2024");
-        double totalRevenue = result.getTotalRevenue();
-        double totalProfit = result.getTotalProfit();
-        double profitPercentage = calculateProfitPercentage(totalRevenue, totalProfit);
-        return  result;
 
 //        response.setContentType("text/csv");
 //        response.setHeader("Content-Disposition", "attachment; filename=\"monthly-report.csv\"");
@@ -324,7 +305,7 @@ public class SalesReportController {
 //        CsvGenerator.generateEOMCsv(result, profitPercentage, writer);
 //
 //        writer.close();
-    }
+
 
 //@PostMapping("/revenue-profit")
 //public Map<String, Object> getRevenueAndProfit(@RequestBody Dates dateRequest) {
