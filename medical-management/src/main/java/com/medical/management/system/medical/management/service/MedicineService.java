@@ -240,17 +240,13 @@ package com.medical.management.system.medical.management.service;
 import com.medical.management.system.medical.management.entity.*;
 import com.medical.management.system.medical.management.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@Transactional
 public class MedicineService {
 
     @Autowired
@@ -298,62 +294,61 @@ public class MedicineService {
         return salesRepository.findAll();
     }
 
-    public AdminEntity getAdminDetailsById(int id) {
-        try {
-            Optional<AdminEntity> adminOptional = adminRepository.findById(id);
-            return adminOptional.orElseThrow(() -> new RuntimeException("Admin with ID " + id + " not found"));
-        } catch (Exception e) {
-            throw new RuntimeException("Error retrieving admin details: " + e.getMessage());
-        }
+//    public AdminEntity getAdminDetailsById(int id) {
+//        try {
+//            Optional<AdminEntity> adminOptional = adminRepository.findById(id);
+//            return adminOptional.orElseThrow(() -> new RuntimeException("Admin with ID " + id + " not found"));
+//        } catch (Exception e) {
+//            throw new RuntimeException("Error retrieving admin details: " + e.getMessage());
+//        }
+//    }
+public AdminEntity getAdminDetailsById(int id) {
+    Optional<AdminEntity> adminOptional = adminRepository.findById(id);
+    if (adminOptional.isEmpty()) {
+        throw new RuntimeException("Admin with ID " + id + " not found");
     }
+    return adminOptional.get();
+}
+
 
 
     public EmployeeEntity getEmployeeDetailById(int id) {
-        try {
             Optional<EmployeeEntity> employeeOptional = employeeRepository.findById(id);
-            return employeeOptional.orElseThrow(() -> new RuntimeException("Employee with ID " + id + " not found"));
-        } catch (Exception e) {
-            throw new RuntimeException("Error retrieving employee details: " + e.getMessage());
+        if (employeeOptional.isEmpty()) {
+            throw new RuntimeException("employee with ID " + id + " not found");
         }
+        return employeeOptional.get();
     }
+
 
     public MedicineEntity getMedicineDetailsById(int id) {
-        try {
-            Optional<MedicineEntity> medicineOptional = medicineRepository.findById(id);
-            return medicineOptional.orElseThrow(() -> new RuntimeException("Medicine with ID " + id + " not found"));
-        } catch (Exception e) {
-            throw new RuntimeException("Error retrieving medicine details: " + e.getMessage());
+        Optional<MedicineEntity> medicineOptional = medicineRepository.findById(id);
+        if (medicineOptional.isEmpty()) {
+            throw new RuntimeException("medicine with ID " + id + " not found");
         }
+        return medicineOptional.get();
     }
 
+
     public RestockEntity getRestockDetailsById(int id) {
-        try {
-            Optional<RestockEntity> restockOptional = restockRepository.findById(id);
-            return restockOptional.orElseThrow(() -> new RuntimeException("Restock with ID " + id + " not found"));
-        } catch (Exception e) {
-            throw new RuntimeException("Error retrieving restock details: " + e.getMessage());
+        Optional<RestockEntity> restockOptional = restockRepository.findById(id);
+        if (restockOptional.isEmpty()) {
+            throw new RuntimeException("restock with ID " + id + " not found");
         }
+        return restockOptional.get();
     }
 
     public SalesEntity getSalesDetailById(int id) {
-        try {
-            Optional<SalesEntity> salesOptional = salesRepository.findById(id);
-            return salesOptional.orElseThrow(() -> new RuntimeException("Sales with ID " + id + " not found"));
-        } catch (Exception e) {
-            throw new RuntimeException("Error retrieving sales details: " + e.getMessage());
+        Optional<SalesEntity> salesOptional = salesRepository.findById(id);
+        if (salesOptional.isEmpty()) {
+            throw new RuntimeException("sales with ID " + id + " not found");
         }
+        return salesOptional.get();
     }
 
-    public AdminEntity getAdminByName(String name) {
-        try {
-            AdminEntity admin = adminRepository.findByName(name);
-            if (admin == null) {
-                throw new RuntimeException("Admin with name " + name + " not found");
-            }
-            return admin;
-        } catch (Exception e) {
-            throw new RuntimeException("Error retrieving admin by name: " + e.getMessage());
-        }
+
+    public AdminEntity getAdminByName(String name){
+        return adminRepository.findByName(name);
     }
 
     public EmployeeEntity getEmployeeByName(String name) {

@@ -18,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/pharmacy")
@@ -144,31 +145,72 @@ public class MedicineController
     @GetMapping("/display/AdminById/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 
-    public AdminEntity findAdminById(@PathVariable int id) {
-        return service.getAdminDetailsById(id);
-   }
+//    public AdminEntity findAdminById(@PathVariable int id) {
+//        return service.getAdminDetailsById(id);
+//   }
+    public ResponseEntity<?> findAdminById(@PathVariable int id) {
+        try {
+            AdminEntity admin = service.getAdminDetailsById(id);
+            return new ResponseEntity<>(admin, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("Admin with ID " + id + " not found", HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping("/display/EmployeeById/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-
-    public EmployeeEntity findEmployeeById(@PathVariable int id) {
-        return service.getEmployeeDetailById(id);
+//
+//    public EmployeeEntity findEmployeeById(@PathVariable int id) {
+//        return service.getEmployeeDetailById(id);
+//    }
+    public ResponseEntity<?> findEmployeeById(@PathVariable int id) {
+        try {
+            EmployeeEntity employee = service.getEmployeeDetailById(id);
+            return new ResponseEntity<>(employee, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("Employee with ID " + id + " not found", HttpStatus.NOT_FOUND);
+        }
     }
+
+
     @GetMapping("/display/MedicineById/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 
-    public MedicineEntity findMedicineById(@PathVariable int id) {
-        return service.getMedicineDetailsById(id);
+//
+    public ResponseEntity<?> findMedicineById(@PathVariable int id) {
+        try {
+            MedicineEntity medicine = service.getMedicineDetailsById(id);
+            return new ResponseEntity<>(medicine, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("Medicine with ID " + id + " not found", HttpStatus.NOT_FOUND);
+        }
     }
     @GetMapping("/display/RestockById/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 
-    public RestockEntity findRestockById(@PathVariable int id) {
-        return service.getRestockDetailsById(id);
+//    public RestockEntity findRestockById(@PathVariable int id) {
+//        return service.getRestockDetailsById(id);
+//    }
+    public ResponseEntity<?> findRestockById(@PathVariable int id) {
+        try {
+            RestockEntity restock = service.getRestockDetailsById(id);
+            return new ResponseEntity<>(restock, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("Restock with ID " + id + " not found", HttpStatus.NOT_FOUND);
+        }
     }
     @GetMapping("/display/SalesById/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_EMPLOYEE')")
-    public SalesEntity findSalesById(@PathVariable int id) {
-        return service.getSalesDetailById(id);
+//    public SalesEntity findSalesById(@PathVariable int id) {
+//        return service.getSalesDetailById(id);
+//    }
+    public ResponseEntity<?> findSalesById(@PathVariable int id) {
+        try {
+            SalesEntity sales = service.getSalesDetailById(id);
+            return new ResponseEntity<>(sales, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("Sales with ID " + id + " not found", HttpStatus.NOT_FOUND);
+        }
     }
 
 //Get Details By Name
@@ -179,6 +221,15 @@ public class MedicineController
     public AdminEntity findAdminByName(@PathVariable String name) {
         return service.getAdminByName(name);
     }
+//    public ResponseEntity<Object> findAdminByName(@PathVariable String name) {
+//        try {
+//            AdminEntity admin = service.getAdminByName(name);
+//            return new ResponseEntity<>(admin, HttpStatus.OK);
+//        } catch (RuntimeException e) {
+//            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+//        }
+//    }
+
     @GetMapping("/display/EmployeeDetailsByName/{name}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_EMPLOYEE')")
 
