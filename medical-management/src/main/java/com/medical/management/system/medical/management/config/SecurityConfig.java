@@ -53,9 +53,11 @@ class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/pharmacy/display/RestockById/**").hasRole("ADMIN")
                 .requestMatchers(HttpMethod.GET, "/pharmacy/display/SalesById/**").hasAnyRole("ADMIN","EMPLOYEE")
 
-                .requestMatchers(HttpMethod.GET, "/pharmacy/display/AdminByName/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.GET, "/pharmacy/display/EmployeeByName/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.GET, "/pharmacy/display/MedicineByName/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/pharmacy/display/AdminDetailsByName/**").hasRole("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/pharmacy/display/EmployeeDetailsByName/**").hasAnyRole("ADMIN","EMPLOYEE")
+                .requestMatchers(HttpMethod.GET, "/pharmacy/display/MedicineDetailsByName/**").hasAnyRole("ADMIN","EMPLOYEE")
+                .requestMatchers(HttpMethod.GET, "/pharmacy/display/MedicineByCategory/**").hasAnyRole("ADMIN","EMPLOYEE")
+                .requestMatchers(HttpMethod.GET, "/pharmacy/display/MedicineByType/**").hasAnyRole("ADMIN","EMPLOYEE")
                 .requestMatchers(HttpMethod.GET, "/pharmacy/invoice/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/reports/**").permitAll()
 

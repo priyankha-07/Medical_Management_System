@@ -111,10 +111,14 @@ public class MedicineController
 
     @GetMapping("/display/AllAdmins")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-
     public List<AdminEntity> findAllAdminDetails() {
-        return service.getAllAdminsInfo();
+        try {
+            return service.getAllAdminsInfo();
+        } catch (RuntimeException ex) {
+            throw new RuntimeException("Failed to fetch admin details");
+        }
     }
+
 
     @GetMapping("/display/AllEmployees")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -129,6 +133,32 @@ public class MedicineController
     public List<MedicineEntity> findAllMedicineDetails() {
         return service.getAllMedicinesInfo();
     }
+    @GetMapping("/display/MedicineByCategory/{category}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_EMPLOYEE')")
+
+    public ResponseEntity<?> findMedicineByCategory(@PathVariable String category) {
+        try {
+            List<MedicineEntity> medicines = service.getMedicineByCategory(category);
+            return new ResponseEntity<>(medicines, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    @GetMapping("/display/MedicineByType/{type}")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_EMPLOYEE')")
+
+
+    public ResponseEntity<?> findMedicineByType(@PathVariable String type) {
+        try {
+            List<MedicineEntity> medicines = service.getMedicineByType(type);
+            return new ResponseEntity<>(medicines, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @GetMapping("/display/AllRestocks")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') ")
 
@@ -144,10 +174,6 @@ public class MedicineController
 
     @GetMapping("/display/AdminById/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-
-//    public AdminEntity findAdminById(@PathVariable int id) {
-//        return service.getAdminDetailsById(id);
-//   }
     public ResponseEntity<?> findAdminById(@PathVariable int id) {
         try {
             AdminEntity admin = service.getAdminDetailsById(id);
@@ -159,10 +185,6 @@ public class MedicineController
 
     @GetMapping("/display/EmployeeById/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-//
-//    public EmployeeEntity findEmployeeById(@PathVariable int id) {
-//        return service.getEmployeeDetailById(id);
-//    }
     public ResponseEntity<?> findEmployeeById(@PathVariable int id) {
         try {
             EmployeeEntity employee = service.getEmployeeDetailById(id);
@@ -175,8 +197,6 @@ public class MedicineController
 
     @GetMapping("/display/MedicineById/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-
-//
     public ResponseEntity<?> findMedicineById(@PathVariable int id) {
         try {
             MedicineEntity medicine = service.getMedicineDetailsById(id);
@@ -188,9 +208,6 @@ public class MedicineController
     @GetMapping("/display/RestockById/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 
-//    public RestockEntity findRestockById(@PathVariable int id) {
-//        return service.getRestockDetailsById(id);
-//    }
     public ResponseEntity<?> findRestockById(@PathVariable int id) {
         try {
             RestockEntity restock = service.getRestockDetailsById(id);
@@ -201,9 +218,7 @@ public class MedicineController
     }
     @GetMapping("/display/SalesById/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_EMPLOYEE')")
-//    public SalesEntity findSalesById(@PathVariable int id) {
-//        return service.getSalesDetailById(id);
-//    }
+
     public ResponseEntity<?> findSalesById(@PathVariable int id) {
         try {
             SalesEntity sales = service.getSalesDetailById(id);
@@ -217,37 +232,37 @@ public class MedicineController
 
     @GetMapping("/display/AdminDetailsByName/{name}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
-
-    public AdminEntity findAdminByName(@PathVariable String name) {
-        return service.getAdminByName(name);
+    public ResponseEntity<?> findAdminByName(@PathVariable String name) {
+        try {
+            AdminEntity admin = service.getAdminDetailByName(name);
+            return new ResponseEntity<>(admin, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("Admin with Name " + name + " not found", HttpStatus.NOT_FOUND);
+        }
     }
-//    public ResponseEntity<Object> findAdminByName(@PathVariable String name) {
-//        try {
-//            AdminEntity admin = service.getAdminByName(name);
-//            return new ResponseEntity<>(admin, HttpStatus.OK);
-//        } catch (RuntimeException e) {
-//            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-//        }
-//    }
 
-    @GetMapping("/display/EmployeeDetailsByName/{name}")
-    @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_EMPLOYEE')")
-
-    public EmployeeEntity findEmployeeByName(@PathVariable String name) {
-        return service.getEmployeeByName(name);
-    }
+        @GetMapping("/display/EmployeeDetailsByName/{name}")
+        @PreAuthorize("hasAuthority('ROLE_ADMIN')")
+        public ResponseEntity<?> findEmployeeByName(@PathVariable String name) {
+            try {
+                EmployeeEntity employee = service.getEmployeeByName(name);
+                return new ResponseEntity<>(employee, HttpStatus.OK);
+            } catch (RuntimeException e) {
+                return new ResponseEntity<>("Employee with Name " + name + " not found", HttpStatus.NOT_FOUND);
+            }
+        }
     @GetMapping("/display/MedicineDetailsByName/{name}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_EMPLOYEE')")
-
-    public MedicineEntity findMedicineByName(@PathVariable String name) {
-        return service.getMedicineByName(name);
+    public ResponseEntity<?> findMedicineByName(@PathVariable String name) {
+        try {
+            MedicineEntity medicine = service.getMedicineByName(name);
+            return new ResponseEntity<>(medicine, HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("Medicine with Name " + name + " not found", HttpStatus.NOT_FOUND);
+        }
     }
 
-//update
-//    @PutMapping("/update/User")
-//    public UserEntity updateUserDetails(@RequestBody UserEntity user) {
-//       return service. updateUserDetail(user);
-// }
+
 
     @PutMapping("/update/Admin")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
@@ -284,37 +299,64 @@ public class MedicineController
     @DeleteMapping("/delete/Admins/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 
-    public String deleteAdminDtailById(@PathVariable int id){
-        service.deleteAdminDetails(id);
-        return "Successfully deleted";
+//    public String deleteAdminDtailById(@PathVariable int id){
+//        service.deleteAdminDetails(id);
+//        return "Successfully deleted";
+//    }
+    public ResponseEntity<?> deleteAdminDetailById(@PathVariable int id) {
+        try {
+            AdminEntity admin = service.deleteAdminDetails(id);
+            return new ResponseEntity<>("Admin with ID " + id + " successfully deleted", HttpStatus.OK);
+
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("Admin with ID " + id + " not found", HttpStatus.NOT_FOUND);
+        }
     }
     @DeleteMapping("/delete/Employee/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_EMPLOYEE')")
 
-    public String deleteEmployeeDtailById(@PathVariable int id){
-        service.deleteEmployeeDetails(id);
-        return "Successfully deleted";
+    public ResponseEntity<?> deleteEmployeeDetailById(@PathVariable int id){
+        try {
+            EmployeeEntity employee = service.deleteEmployeeDetails(id);
+            return new ResponseEntity<>("Employee with ID " + id + " successfully deleted", HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("employee with ID " + id + " not found", HttpStatus.NOT_FOUND);
+        }
     }
     @DeleteMapping("/delete/Medicine/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 
-    public String deleteMedicineDetailById(@PathVariable int id){
-        service.deleteMedicineDetails(id);
-        return "Successfully deleted";
+    public ResponseEntity<?> deleteMedicineDetailById(@PathVariable int id){
+        try {
+            MedicineEntity medicine = service.deleteMedicineDetails(id);
+            return new ResponseEntity<>("Medicine with ID " + id + " successfully deleted", HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("Medicine with ID " + id + " not found", HttpStatus.NOT_FOUND);
+        }
     }
     @DeleteMapping("/delete/Restock/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 
-    public String deleteRestockDetailById(@PathVariable int id){
-        service.deleteRestockDetails(id);
-        return "Successfully deleted";
+    public ResponseEntity<?> deleteRestockDetailById(@PathVariable int id){
+        try {
+            RestockEntity restock = service.deleteRestockDetails(id);
+            return new ResponseEntity<>("Restock with ID " + id + " successfully deleted", HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("Restock with ID " + id + " not found", HttpStatus.NOT_FOUND);
+        }
     }
+
     @DeleteMapping("/delete/Sales/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN') or hasAuthority('ROLE_EMPLOYEE')")
-    public String deleteSalesDetailById(@PathVariable int id){
-        service.deleteSalesDetails(id);
-        return "Successfully deleted";
+    public ResponseEntity<?> deleteSalesDetailById(@PathVariable int id){
+        try {
+            SalesEntity sales = service.deleteSalesDetails(id);
+            return new ResponseEntity<>("Sales with ID " + id + " successfully deleted", HttpStatus.OK);
+        } catch (RuntimeException e) {
+            return new ResponseEntity<>("Sales with ID " + id + " not found", HttpStatus.NOT_FOUND);
+        }
     }
+
     @PostMapping("/authenticate")
     public JwtResponseDto authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
