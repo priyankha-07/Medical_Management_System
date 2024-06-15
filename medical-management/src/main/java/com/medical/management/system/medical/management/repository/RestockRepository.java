@@ -9,7 +9,4 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RestockRepository extends JpaRepository<RestockEntity, Integer> {
 
-    @Query("SELECT r.buyingPrice FROM RestockEntity r WHERE r.medicineId = :medicineId")
-    Double getBuyingPriceForProduct(@Param("medicineId") int medicineId);
 }
-
