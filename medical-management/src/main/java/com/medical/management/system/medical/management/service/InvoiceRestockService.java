@@ -54,13 +54,10 @@ public class InvoiceRestockService {
 
         double totalAmount = restockEntity.getBuyingPrice() * restockEntity.getQuantityRequest();
 
-        // Update the entity with the total amount
-        restockEntity.setTotalAmount(totalAmount); // Assuming there is a field for total amount
+        restockEntity.setTotalAmount(totalAmount);
 
-        // Save the updated entity back to the repository
         restockRepository.save(restockEntity);
 
-        // Manually construct JSON string with line breaks and indentation
         StringBuilder invoice = new StringBuilder();
         invoice.append("{\n");
         invoice.append("    \"Medicine ID\": ").append(restockEntity.getMedicineId()).append(",\n");

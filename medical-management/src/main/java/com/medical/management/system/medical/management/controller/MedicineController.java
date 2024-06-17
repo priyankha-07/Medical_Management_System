@@ -299,10 +299,6 @@ public class MedicineController
     @DeleteMapping("/delete/Admins/{id}")
     @PreAuthorize("hasAuthority('ROLE_ADMIN')")
 
-//    public String deleteAdminDtailById(@PathVariable int id){
-//        service.deleteAdminDetails(id);
-//        return "Successfully deleted";
-//    }
     public ResponseEntity<?> deleteAdminDetailById(@PathVariable int id) {
         try {
             AdminEntity admin = service.deleteAdminDetails(id);

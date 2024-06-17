@@ -8,12 +8,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Map;
 
 @Repository
 public interface SalesRepository extends JpaRepository<SalesEntity, Integer> {
 
-    // Query for total revenue and profit for a date range (MTD and EOM)
     @Query("SELECT SUM(s.totalAmount) AS totalRevenue, " +
             "SUM((s.sellingPrice - r.buyingPrice) * s.quantitySold) AS totalProfit " +
             "FROM SalesEntity s " +
@@ -23,7 +23,7 @@ public interface SalesRepository extends JpaRepository<SalesEntity, Integer> {
             @Param("startDate") String startDate,
             @Param("endDate") String endDate);
 
-    //query for daily report
+
     @Query("SELECT SUM(s.totalAmount) AS totalRevenue FROM SalesEntity s  JOIN RestockEntity r ON s.medicineId = r.medicineId WHERE s.soldDate = :date")
     double getTotalRevenueAndProfitForDate(@Param("date") String date);
 

@@ -54,13 +54,10 @@ public class InvoiceSalesService {
 
         double totalAmount = salesEntity.getSellingPrice() * salesEntity.getQuantitySold();
 
-        // Update the entity with the calculated total amount
         salesEntity.setTotalAmount(totalAmount);
 
-        // Save the updated entity back to the repository
         salesRepository.save(salesEntity);
 
-        // Manually construct JSON string with line breaks and indentation
         StringBuilder invoice = new StringBuilder();
         invoice.append("{\n");
         invoice.append("    \"Medicine ID\": ").append(salesEntity.getMedicineId()).append(",\n");
