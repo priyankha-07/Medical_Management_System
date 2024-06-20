@@ -1,14 +1,20 @@
 Overview
-The Medical Management System is a robust application designed to streamline operations within a medical store. It encompasses a range of functionalities including inventory management, sales reporting, user authentication, and access control. Developed using Spring Boot,
-the system ensures efficiency, security, and reliability.
+The Medical Management System is a robust application designed to streamline operations within a medical store. It encompasses a range of functionalities including inventory management, sales reporting, user authentication, and access control. Developed using Spring Boot,the system ensures efficiency, security, and reliability.
 
 Features:
+
 ->Inventory Management: Efficiently manage medicines and stock levels.
 ->Sales Reporting: Generate detailed sales reports.
 ->User Authentication: Secure user authentication with JWT.
 ->Employee Management: Manage employee records.
 ->Restock Management: Handle restocking of medicines.
 ->CSV Generation: Export data to CSV files.
+
+Technologies Used:
+->Java
+->SpringBoot
+->SpringDataJpa
+->MySQl
 
 Prerequisites:
 Java 8 or higher
@@ -34,7 +40,7 @@ Add Employee Information:
 POST /pharmacy/add/employeeInfo
 Authorization: ROLE_ADMIN
 Adds details of an employee.
-A
+
 Add Medicine Information:
 POST /pharmacy/add/medicineInfo
 Authorization: ROLE_ADMIN
