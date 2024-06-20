@@ -24,192 +24,53 @@ MySQL
 Usage: 
 
 API Endpoints
-Admin APIs
+MedicineController: Handles CRUD operations for medicines.
 
-Add New User Details:
-POST /pharmacy/add/detailsOfUser
-Authorization: ROLE_ADMIN
-Adds a new user detail.
+POST /pharmacy/add/detailsOfUser-->Adds details of a new user.
+POST /pharmacy/add/adminInfoAdds--> details of a new admin.
+POST /pharmacy/add/employeeInfo-->Adds details of a new employee.
+POST /pharmacy/add/medicineInfo-->Adds details of a new medicine.
+POST /pharmacy/add/restockInfo-->Adds details of a new restock.
+POST /pharmacy/add/salesInfo-->Adds details of a new sales entry.
+POST /pharmacy/add/ListOfAdmins-->Adds details of multiple admins.
+POST /pharmacy/add/ListOfEmployees-->Adds details of multiple employees.
+POST /pharmacy/add/ListOfMedicines-->Adds details of multiple medicines.
+POST /pharmacy/add/ListOfRestocks-->Adds details of multiple restocks.
+POST /pharmacy/add/ListOfSales-->Adds details of multiple sales entries.
 
-Add Admin Information:
-POST /pharmacy/add/adminInfo
-Authorization: ROLE_ADMIN
-Adds details of an admin.
+GET Requests:
 
-Add Employee Information:
-POST /pharmacy/add/employeeInfo
-Authorization: ROLE_ADMIN
-Adds details of an employee.
+GET /pharmacy/display/AllAdmins-->Retrieves details of all admins.
+GET /pharmacy/display/AllEmployees-->Retrieves details of all employees.
+GET /pharmacy/display/AllMedicines-->Retrieves details of all medicines.
+GET /pharmacy/display/MedicineByCategory/{category}-->Retrieves medicines by category.
+GET /pharmacy/display/MedicineByType/{type}-->Retrieves medicines by type.
+GET /pharmacy/display/AllRestocks-->Retrieves details of all restocks.
+GET /pharmacy/display/AllSales-->Retrieves details of all sales entries.
+GET /pharmacy/display/AdminById/{id}-->Retrieves admin details by ID.
+GET /pharmacy/display/EmployeeById/{id}-->Retrieves employee details by ID.
+GET /pharmacy/display/MedicineById/{id}-->Retrieves medicine details by ID.
+GET /pharmacy/display/RestockById/{id}-->Retrieves restock details by ID.
+GET /pharmacy/display/SalesById/{id}-->Retrieves sales details by ID.
+GET /pharmacy/display/AdminDetailsByName/{name}-->Retrieves admin details by name.
+GET /pharmacy/display/EmployeeDetailsByName/{name}-->Retrieves employee details by name.
+GET /pharmacy/display/MedicineDetailsByName/{name}-->Retrieves medicine details by name.
+GET /pharmacy/invoice/sales/{salesId}-->Generates sales invoice by sales ID.
+GET /pharmacy/invoice/restock/{restockId}-->Generates restock invoice by restock ID.
 
-Add Medicine Information:
-POST /pharmacy/add/medicineInfo
-Authorization: ROLE_ADMIN
-Adds details of a medicine.
+PUT Requests:
+PUT /pharmacy/update/Admin-->Updates details of an admin.
+PUT /pharmacy/update/Employee-->Updates details of an employee.
+PUT /pharmacy/update/Medicine-->Updates details of a medicine.
+PUT /pharmacy/update/Restock-->Updates details of a restock.
+PUT /pharmacy/update/Sales-->Updates details of a sales entry.
 
-Add Restock Information:
-POST /pharmacy/add/restockInfo
-Authorization: ROLE_ADMIN
-Adds details of a restock.
-
-Add Sales Information:
-POST /pharmacy/add/salesInfo
-Authorization: ROLE_ADMIN or ROLE_EMPLOYEE
-Adds details of a sale.
-
-Add List of Admins:
-POST /pharmacy/add/ListOfAdmins
-Authorization: ROLE_ADMIN
-Adds multiple admin details.
-
-Add List of Employees:
-POST /pharmacy/add/ListOfEmployees
-Authorization: ROLE_ADMIN
-Adds multiple employee details.
-
-Add List of Medicines:
-POST /pharmacy/add/ListOfMedicines
-Authorization: ROLE_ADMIN
-Adds multiple medicine details.
-
-Add List of Restocks:
-POST /pharmacy/add/ListOfRestocks
-Authorization: ROLE_ADMIN
-Adds multiple restock details.
-
-Add List of Sales:
-POST /pharmacy/add/ListOfSales
-Authorization: ROLE_ADMIN or ROLE_EMPLOYEE
-Adds multiple sales details.
-
-Get All Admins:
-GET /pharmacy/display/AllAdmins
-Authorization: ROLE_ADMIN
-Retrieves all admin details.
-
-Get Admin By ID:
-GET /pharmacy/display/AdminById/{id}
-Authorization: ROLE_ADMIN
-Retrieves admin details by ID.
-
-Get Admin By Name:
-GET /pharmacy/display/AdminDetailsByName/{name}
-Authorization: ROLE_ADMIN
-Retrieves admin details by name.
-
-Update Admin Details:
-PUT /pharmacy/update/Admin
-Authorization: ROLE_ADMIN
-Updates admin details.
-
-Delete Admin By ID:
-DELETE /pharmacy/delete/Admins/{id}
-Authorization: ROLE_ADMIN
-Deletes admin details by ID.
-
-Employee APIs
-
-Get All Employees:
-GET /pharmacy/display/AllEmployees
-Authorization: ROLE_ADMIN
-Retrieves all employee details.
-
-Get Employee By ID:
-GET /pharmacy/display/EmployeeById/{id}
-Authorization: ROLE_ADMIN
-Retrieves employee details by ID.
-
-Get Employee By Name:
-GET /pharmacy/display/EmployeeDetailsByName/{name}
-Authorization: ROLE_ADMIN
-Retrieves employee details by name.
-
-Update Employee Details:
-PUT /pharmacy/update/Employee
-Authorization: ROLE_ADMIN
-Updates employee details.
-
-Delete Employee By ID:
-DELETE /pharmacy/delete/Employee/{id}
-Authorization: ROLE_ADMIN or ROLE_EMPLOYEE
-Deletes employee details by ID.
-
-Medicine APIs
-Get All Medicines:
-GET /pharmacy/display/AllMedicines
-Authorization: ROLE_ADMIN or ROLE_EMPLOYEE
-Retrieves all medicine details.
-
-Get Medicine By Category:
-GET /pharmacy/display/MedicineByCategory/{category}
-Authorization: ROLE_ADMIN or ROLE_EMPLOYEE
-Retrieves medicine details by category.
-
-Get Medicine By Type:
-GET /pharmacy/display/MedicineByType/{type}
-Authorization: ROLE_ADMIN or ROLE_EMPLOYEE
-Retrieves medicine details by type.
-
-Get Medicine By ID:
-GET /pharmacy/display/MedicineById/{id}
-Authorization: ROLE_ADMIN
-Retrieves medicine details by ID.
-
-Get Medicine By Name:
-GET /pharmacy/display/MedicineDetailsByName/{name}
-Authorization: ROLE_ADMIN or ROLE_EMPLOYEE
-Retrieves medicine details by name.
-
-Update Medicine Details
-PUT /pharmacy/update/Medicine
-Authorization: ROLE_ADMIN
-Updates medicine details.
-
-Delete Medicine By ID:
-DELETE /pharmacy/delete/Medicine/{id}
-Authorization: ROLE_ADMIN
-Deletes medicine details by ID.
-
-Restock APIs
-Get All Restocks
-GET /pharmacy/display/AllRestocks
-Authorization: ROLE_ADMIN
-Retrieves all restock details.
-
-Get Restock By ID:
-GET /pharmacy/display/RestockById/{id}
-Authorization: ROLE_ADMIN
-Retrieves restock details by ID.
-
-Update Restock Details:
-PUT /pharmacy/update/Restock
-Authorization: ROLE_ADMIN
-Updates restock details.
-
-Delete Restock By ID:
-DELETE /pharmacy/delete/Restock/{id}
-Authorization: ROLE_ADMIN
-Deletes restock details by ID.
-
-Sales APIs
-Get All Sales:
-GET /pharmacy/display/AllSales
-Authorization: ROLE_ADMIN or ROLE_EMPLOYEE
-Retrieves all sales details.
-
-Get Sales By ID:
-GET /pharmacy/display/SalesById/{id}
-Authorization: ROLE_ADMIN or ROLE_EMPLOYEE
-Retrieves sales details by ID.
-
-Update Sales Details:
-PUT /pharmacy/update/Sales
-Authorization: ROLE_ADMIN or ROLE_EMPLOYEE
-Updates sales details.
-
-Delete Sales By ID:
-DELETE /pharmacy/delete/Sales/{id}
-Authorization: ROLE_ADMIN or ROLE_EMPLOYEE
-Deletes sales details by ID.
+DELETE Requests:
+DELETE /pharmacy/delete/Admins/{id}-->Deletes an admin by ID.
+DELETE /pharmacy/delete/Employee/{id}-->Deletes an employee by ID.
+DELETE /pharmacy/delete/Medicine/{id}-->Deletes a medicine by ID.
+DELETE /pharmacy/delete/Restock/{id}-->Deletes a restock by ID.
+DELETE /pharmacy/delete/Sales/{id}-->Deletes a sales entry by ID.
 
 Authentication APIs
 
