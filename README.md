@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Management System</title>
-</head>
 <body>
+<h1>Medical Management System</h1>
 
-<h1>Overview</h1>
+<h2>Overview</h2>
 <p>The Medical Management System is a robust application designed to streamline operations within a medical store. It encompasses a range of functionalities including inventory management, sales reporting, user authentication, and access control. Developed using Spring Boot, the system ensures efficiency, security, and reliability.</p>
 
 <h2>Features</h2>
